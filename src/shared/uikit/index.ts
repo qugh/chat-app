@@ -7,3 +7,4 @@ export { Paper } from "./Paper/Paper";
 export { Link } from "./Link/Link";
 export { Typography } from "./Typography/Typography";
 export { theme } from "./theme";
+export { Icons } from "./icons";

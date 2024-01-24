@@ -2,7 +2,7 @@ import React from "react";
 import { Avatar, Box, Button, Grid, Input, Link, Paper, Typography, Icons } from "shared/uikit";
 
 
-export const Auth: React.FC = () => {
+export const Register: React.FC = () => {
   return <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
     <Box
       sx={{
@@ -17,13 +17,13 @@ export const Auth: React.FC = () => {
         <Icons.LockOutlined />
       </Avatar>
       <Typography component="h1" variant="h5">
-        Sign in
+        Sign up
       </Typography>
       <Box
         component="form"
         noValidate
-        onSubmit={() => {
-        }}
+        // onSubmit={() => {
+        // }}
         sx={{ mt: 1 }}>
         <Input
           margin="normal"
@@ -64,8 +64,8 @@ export const Auth: React.FC = () => {
             </Link>
           </Grid>
           <Grid item>
-            <Link href="/sign-up" variant="body2">
-              Don't have an account? Sign Up
+            <Link href="/sign-in" variant="body2">
+              Already have an account?
             </Link>
           </Grid>
         </Grid>
