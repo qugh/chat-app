@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { App } from "app";
+import { App } from "@client/app";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { theme } from "shared/uikit";
-import { Routing } from "pages";
+import { theme } from "@client/shared/uikit";
+import { Routing } from "@client/pages";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

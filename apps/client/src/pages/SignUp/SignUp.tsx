@@ -1,8 +1,8 @@
 import React from "react";
-import { Grid } from "shared/uikit";
-import { Auth } from "widgets";
+import { Grid } from "@client/shared/uikit";
+import { Register } from "@client/widgets";
 
-export const SignIn: React.FC = () => {
+export const SignUp: React.FC = () => {
   return <Grid container sx={{ height: "100vh" }}>
     <Grid
       item
@@ -18,6 +18,7 @@ export const SignIn: React.FC = () => {
         backgroundPosition: "center"
       }}
     />
-    <Auth />
+    <Register />
+
   </Grid>;
 };

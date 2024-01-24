@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, Box, Button, Grid, Input, Link, Paper, Typography, Icons } from "shared/uikit";
+import { Avatar, Box, Button, Grid, Input, Link, Paper, Typography, Icons } from "@client/shared/uikit";
 
 
 export const Auth: React.FC = () => {
