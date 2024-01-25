@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "pnpm run --parallel dev",
+    "dev": "pnpm run --parallel start:dev",
     "build:server": "pnpm --filter server build",
     "build:client": "pnpm --filter client build",
-    "start:server": "pnpm --filter server start:prod",
-    "start:client": "pnpm --filter client dev"
+    "start:server": "pnpm --filter server start:dev",
+    "start:client": "pnpm --filter client start:dev"
   },
   "keywords": [],
   "author": "",
