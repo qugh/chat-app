@@ -8,10 +8,11 @@ import { User } from '@server/users/users.model';
 @Module({
   controllers: [],
   providers: [],
-  imports: [ConfigModule.forRoot({
-    isGlobal: true,
-    envFilePath: `.env.${process.env.NODE_ENV || 'development'}`,
-  }),
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: `.env.${process.env.NODE_ENV || 'development'}`,
+    }),
     SequelizeModule.forRoot({
       dialect: 'postgres',
       host: process.env.POSTGRES_HOST,
@@ -19,14 +20,12 @@ import { User } from '@server/users/users.model';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      autoLoadModels: true,
       models: [User],
+      autoLoadModels: true,
       logging: console.log,
     }),
     AuthModule,
     UsersModule,
   ],
-
 })
-export class AppModule {
-}
+export class AppModule {}

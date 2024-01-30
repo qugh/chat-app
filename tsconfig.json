@@ -8,15 +8,12 @@
     "strictNullChecks": true,
     "noImplicitAny": true,
     "strictBindCallApply": true,
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@server/*": [
-        "./apps/server/src/*"
-      ],
-      "@client/*": [
-        "./apps/client/src/*"
-      ]
-    }
-  }
+      "@server/*": ["./apps/server/src/*"],
+      "@client/*": ["./apps/client/src/*"],
+    },
+  },
 }

@@ -1,5 +1,8 @@
 import { IsEmail, IsString, Length } from 'class-validator';
-import { MAX_PASSWORD_LENGTH, MIN_PASSWORD_LENGTH } from '@server/constants/user';
+import {
+  MAX_PASSWORD_LENGTH,
+  MIN_PASSWORD_LENGTH,
+} from '@server/constants/user';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserDto {

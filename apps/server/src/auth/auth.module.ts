@@ -5,7 +5,6 @@ import { UsersModule } from '@server/users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 
-
 @Module({
   imports: [
     UsersModule,
@@ -23,5 +22,4 @@ import { ConfigService } from '@nestjs/config';
   providers: [AuthService],
   exports: [AuthService],
 })
-export class AuthModule {
-}
+export class AuthModule {}
