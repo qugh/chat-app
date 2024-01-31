@@ -10,7 +10,7 @@ interface UserCreationAttributes {
 export class User extends Model<User, UserCreationAttributes> {
   @ApiProperty({ example: '1', description: 'Уникальный идентификатор' })
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.STRING,
     unique: true,
     autoIncrement: true,
     primaryKey: true,

@@ -10,8 +10,11 @@ import {
   Typography,
   Icons,
 } from '@client/shared/uikit';
+import { useAuth } from './useAuth';
 
 export const Auth: React.FC = () => {
+  const { handleSignUp } = useAuth();
+
   return (
     <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
       <Box
@@ -29,7 +32,7 @@ export const Auth: React.FC = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <Box component="form" noValidate onSubmit={() => {}} sx={{ mt: 1 }}>
+        <Box component="form" noValidate onSubmit={handleSignUp} sx={{ mt: 1 }}>
           <Input
             margin="normal"
             required

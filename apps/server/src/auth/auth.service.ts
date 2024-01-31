@@ -15,7 +15,8 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-  ) {}
+  ) {
+  }
 
   async signUp(data: CreateUserDto): Promise<User> {
     if (!data.password || !data.email)
@@ -25,10 +26,10 @@ export class AuthService {
     return user;
   }
 
-  async signIn(email: string, pass: string): Promise<{ accessToken: string }> {
-    const user = await this.usersService.findOne(email);
+  async signIn(data: CreateUserDto): Promise<{ accessToken: string }> {
+    const user = await this.usersService.findOne(data.email);
 
-    if (user?.password !== pass) {
+    if (user?.password !== data.password) {
       throw new UnauthorizedException();
     }
 

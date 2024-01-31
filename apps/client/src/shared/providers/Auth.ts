@@ -5,3 +5,8 @@ export const signUpProvider = async (payload: CreateUserDto) => {
   const { data } = await authApi.signUp(payload);
   return data;
 };
+
+export const signInProvider = async (payload: CreateUserDto) => {
+  const { data } = await authApi.signIn(payload);
+  return data;
+};
