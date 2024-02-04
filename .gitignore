@@ -2,5 +2,4 @@ node_modules
 dist
 build
 .idea
-.env.*!/apps/server/.env.development
-.env.*
+**/.env.*
