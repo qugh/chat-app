@@ -8,5 +8,5 @@ export const signUpProvider = async (payload: CreateUserDto) => {
 
 export const signInProvider = async (payload: CreateUserDto) => {
   const { data } = await authApi.signIn(payload);
-  return data;
+  return data.accessToken;
 };
