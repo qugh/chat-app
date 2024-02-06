@@ -1,26 +1,30 @@
 import { Column, DataType, Model, Table } from 'sequelize-typescript';
-
-interface MessageCreationAttributes {
-  content: string;
-}
+import {
+  CreationOptional,
+  InferAttributes,
+  InferCreationAttributes,
+} from 'sequelize';
 
 @Table({ tableName: 'messages' })
-export class Message extends Model<MessageCreationAttributes> {
+export class Message extends Model<
+  InferAttributes<Message>,
+  InferCreationAttributes<Message>
+> {
   @Column({
     type: DataType.INTEGER,
     unique: true,
     autoIncrement: true,
     primaryKey: true,
   })
-  public id: number;
+  declare id: CreationOptional<number>;
 
   @Column({
     allowNull: false,
   })
-  public content: string;
+  declare content: string;
 
   @Column({
     type: DataType.DATE,
   })
-  createdAt: Date;
+  declare createdAt: CreationOptional<Date>;
 }

@@ -16,7 +16,7 @@ export class MessagesService {
   async getMessageById(id: number) {
     const message = await this.messagesRepository.findOne({
       where: {
-        id: id,
+        id,
       },
     });
     if (message) {
