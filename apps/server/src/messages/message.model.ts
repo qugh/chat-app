@@ -5,7 +5,7 @@ interface MessageCreationAttributes {
 }
 
 @Table({ tableName: 'messages' })
-export class Message extends Model<Message, MessageCreationAttributes> {
+export class Message extends Model<MessageCreationAttributes> {
   @Column({
     type: DataType.INTEGER,
     unique: true,

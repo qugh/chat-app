@@ -1,13 +1,16 @@
 import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+} from 'sequelize';
 import { ApiProperty } from '@nestjs/swagger';
 
-interface UserCreationAttributes {
-  email: string;
-  password: string;
-}
-
 @Table({ tableName: 'users' })
-export class User extends Model<User, UserCreationAttributes> {
+export class User extends Model<
+  InferAttributes<User>,
+  InferCreationAttributes<User>
+> {
   @ApiProperty({ example: '1', description: 'Уникальный идентификатор' })
   @Column({
     type: DataType.INTEGER,
@@ -15,7 +18,7 @@ export class User extends Model<User, UserCreationAttributes> {
     autoIncrement: true,
     primaryKey: true,
   })
-  id: number;
+  id: CreationOptional<number>;
 
   @ApiProperty({ example: 'test@mail.ru', description: 'Почта' })
   @Column({

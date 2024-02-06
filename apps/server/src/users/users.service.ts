@@ -6,18 +6,21 @@ import { ValidationException } from '@server/exceptions/validation.exception';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User) private userRepository: typeof User) {
-  }
+  constructor(@InjectModel(User) private userRepository: typeof User) {}
 
   async createUser(dto: CreateUserDto) {
     // const role = await this.rolesService.getRoleByValue('user');
     // if (!role)
     //   throw new HttpException('Роль user не создана', HttpStatus.BAD_REQUEST);
 
-    const userEntity = await this.userRepository.findOne({ where: { email: dto.email } });
+    const userEntity = await this.userRepository.findOne({
+      where: { email: dto.email },
+    });
 
     if (userEntity) {
-      throw new ValidationException(`Пользователь с email ${dto.email} уже существует`);
+      throw new ValidationException(
+        `Пользователь с email ${dto.email} уже существует`,
+      );
     }
 
     const user = await this.userRepository.create(dto);
