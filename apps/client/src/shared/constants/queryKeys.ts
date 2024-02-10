@@ -1,3 +1,3 @@
 export enum queryKeys {
-  SIGN_UP = 'SIGN_UP',
+  GET_MESSAGES = 'GET_MESSAGES',
 }

@@ -1,43 +1,48 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { io } from 'socket.io-client';
+import { getAccessToken } from '@client/shared/utils/localstorage';
+import { useQuery } from '@tanstack/react-query';
+import { queryKeys } from '@client/shared/constants';
+import { getAllMessagesProvider } from '@client/shared/providers/Messages';
 
-const socket = io('http://localhost:5001/messages', {
-  transports: ['websocket'],
-});
+interface Message {
+  content: string | Record<string, unknown>;
+  updatedAt: string;
+}
 
 export const useMessages = () => {
-  const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState('');
 
-  const listener = (msg) => {
-    receiveMessage(msg);
+  const messagesQuery = useQuery({
+    queryKey: [queryKeys.GET_MESSAGES],
+    queryFn: () => getAllMessagesProvider(),
+  });
+
+  const socket = useMemo(
+    () =>
+      io('http://localhost:5001/messages', {
+        transports: ['websocket'],
+        auth: { jwt: getAccessToken() },
+      }),
+    [],
+  );
+
+  const listener = (msg: Message) => {
+    // const newMessages = [...messages, msg];
+    // setMessages(newMessages);
+    messagesQuery.refetch();
   };
 
   useEffect(() => {
-    socket.on('receiveMessage', listener);
-
-    getInitialMessages();
+    socket.on('message', listener);
 
     return () => {
-      socket.off('receiveMessage', listener);
+      socket.off('message', listener);
     };
   }, []);
 
-  function getInitialMessages() {
-    fetch('http://localhost:5000/api/messages')
-      .then((res) => res.json())
-      .then((data) => {
-        setMessages(data);
-      });
-  }
-
-  function receiveMessage(msg: any) {
-    const newMessages = [...messages, msg];
-    setMessages(newMessages);
-  }
-
   function sendMessage() {
-    socket.emit('sendMessage', message);
+    socket.emit('message', { data: message });
     setMessage('');
   }
 
@@ -49,5 +54,6 @@ export const useMessages = () => {
     sendMessage,
     message,
     handleChange,
+    messages: messagesQuery.data || [],
   };
 };

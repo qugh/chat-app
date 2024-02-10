@@ -5,31 +5,35 @@ import {
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
-} from "@nestjs/websockets";
-import { Server, Socket } from "socket.io";
-import { Body, Logger } from "@nestjs/common";
-import { MessagesService } from "@server/messages/messages.service";
+} from '@nestjs/websockets';
+import { Server, Socket } from 'socket.io';
+import { Body, Logger, UseGuards } from '@nestjs/common';
+import { MessagesService } from '@server/messages/messages.service';
+import { AuthWsGuard } from '@server/auth/auth.ws.guard';
 
-@WebSocketGateway(5001, { namespace: "messages", transports: ["websocket"] })
+@WebSocketGateway(5001, { namespace: 'messages', transports: ['websocket'] })
 export class MessagesGateway
-  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
-  constructor(private readonly messagesService: MessagesService) {
-  }
+  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
+{
+  constructor(private readonly messagesService: MessagesService) {}
 
-  private logger: Logger = new Logger("MessageGateway");
+  private logger: Logger = new Logger('MessageGateway');
 
   @WebSocketServer()
   wss: Server;
 
-  @SubscribeMessage("sendMessage")
-  async handleSendMessage(client: Socket, payload: string): Promise<void> {
-    const newMessage = await this.messagesService.createMessage(payload);
-    this.wss.emit("receiveMessage", newMessage);
+  @UseGuards(AuthWsGuard)
+  @SubscribeMessage('message')
+  async handleSendMessage(
+    client: Socket,
+    payload: { data: string },
+  ): Promise<void> {
+    const newMessage = await this.messagesService.createMessage(payload.data);
+    this.wss.emit('message', newMessage);
   }
 
   afterInit(server: Server) {
-    this.logger.log("Initialized");
-    // setTimeout(() => this.wss.send('hello'), 1000);
+    this.logger.log('Initialized');
   }
 
   handleDisconnect(client: Socket) {

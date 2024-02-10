@@ -2,24 +2,21 @@ import {
   Body,
   Controller,
   Get,
-  HttpCode,
-  HttpStatus,
   Post,
   Request,
-  UseGuards, UsePipes, ValidationPipe,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { AuthService } from '@server/auth/auth.service';
-import { AuthGuard } from '@server/auth/auth.guard';
 import { CreateUserDto } from '@server/users/dto/create-user.dto';
 import { ApiTags } from '@nestjs/swagger';
-
-// import { ValidationPipe } from '@server/pipes/validation.pipe';
+import { AuthGuard } from '@server/auth/auth.guard';
 
 @ApiTags('Авторизация')
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {
-  }
+  constructor(private authService: AuthService) {}
 
   @UsePipes(ValidationPipe)
   @Post('register')

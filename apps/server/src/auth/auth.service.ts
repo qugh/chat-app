@@ -1,7 +1,6 @@
 import {
   HttpException,
   HttpStatus,
-  Inject,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -15,8 +14,7 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-  ) {
-  }
+  ) {}
 
   async signUp(data: CreateUserDto): Promise<User> {
     if (!data.password || !data.email)

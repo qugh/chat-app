@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "experimentalDecorators": true,
+    "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "incremental": true,
     "skipLibCheck": true,
@@ -12,8 +13,12 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@server/*": ["./apps/server/src/*"],
-      "@client/*": ["./apps/client/src/*"],
-    },
-  },
+      "@server/*": [
+        "./apps/server/src/*"
+      ],
+      "@client/*": [
+        "./apps/client/src/*"
+      ]
+    }
+  }
 }

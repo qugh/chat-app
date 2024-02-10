@@ -1,11 +1,13 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { Message } from '@server/messages/message.model';
 import { MessagesService } from '@server/messages/messages.service';
+import { AuthGuard } from '@server/auth/auth.guard';
 
 @Controller('messages')
 export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
 
+  @UseGuards(AuthGuard)
   @Get()
   async getAllMessages(): Promise<Message[]> {
     const messages = await this.messagesService.getAllMessages();

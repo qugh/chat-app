@@ -1,20 +1,23 @@
-import { CreateUserDto } from "@server/users/dto/create-user.dto";
-import axios, { AxiosResponse } from "axios";
-import { User } from "@server/users/users.model";
+import { CreateUserDto } from '@server/users/dto/create-user.dto';
+import { AxiosResponse } from 'axios';
+import { User } from '@server/users/users.model';
+import { BaseApi } from '@client/shared/api/Base';
 
-class AuthApi {
-  private BACKEND_URL = "http://localhost:5000/api/auth";
+class AuthApi extends BaseApi {
+  constructor() {
+    super();
+  }
 
   public signUp = async (
     payload: CreateUserDto,
   ): Promise<AxiosResponse<User>> => {
-    return await axios.post(this.BACKEND_URL + "/register", payload);
+    return await this.POST('/register', payload);
   };
 
   public signIn = async (
     payload: CreateUserDto,
   ): Promise<AxiosResponse<{ accessToken: string }>> => {
-    return await axios.post(this.BACKEND_URL + "/login", payload);
+    return await this.POST('/login', payload);
   };
 }
 
