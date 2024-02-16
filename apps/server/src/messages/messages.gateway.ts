@@ -1,4 +1,5 @@
 import {
+  ConnectedSocket,
   OnGatewayConnection,
   OnGatewayDisconnect,
   OnGatewayInit,
@@ -7,15 +8,19 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { Body, Logger, UseGuards } from '@nestjs/common';
+import { Body, Injectable, Logger, UseGuards } from '@nestjs/common';
 import { MessagesService } from '@server/messages/messages.service';
 import { AuthWsGuard } from '@server/auth/auth.ws.guard';
+import { JwtService } from '@nestjs/jwt';
 
-@WebSocketGateway(5001, { namespace: 'messages', transports: ['websocket'] })
+@WebSocketGateway(5001, { transports: ['websocket'] })
 export class MessagesGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
-  constructor(private readonly messagesService: MessagesService) {}
+  constructor(
+    private readonly messagesService: MessagesService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   private logger: Logger = new Logger('MessageGateway');
 
@@ -36,11 +41,20 @@ export class MessagesGateway
     this.logger.log('Initialized');
   }
 
-  handleDisconnect(client: Socket) {
+  handleDisconnect(@ConnectedSocket() client: Socket) {
     this.logger.log(`Client Disconnected: ${client.id}`);
   }
 
-  handleConnection(client: Socket, ...args: any[]) {
+  async handleConnection(client: Socket, ...args: any[]) {
+    try {
+      const token = client.handshake.auth.jwt;
+
+      const user = await this.jwtService.verifyAsync(token, {
+        secret: process.env.JWT_SECRET,
+      });
+    } catch (e) {
+      client.disconnect();
+    }
     this.logger.log(`Client Connected: ${client.id}`);
   }
 }

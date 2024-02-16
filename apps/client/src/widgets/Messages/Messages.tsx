@@ -2,7 +2,8 @@ import React from 'react';
 import { useMessages } from './useMessages';
 
 export const Messages: React.FC = () => {
-  const { sendMessage, message, handleChange, messages } = useMessages();
+  const { sendMessage, message, handleChange, messages, deleteAllMessages } =
+    useMessages();
   console.log('messages', messages);
   return (
     <section
@@ -26,6 +27,7 @@ export const Messages: React.FC = () => {
         placeholder="enter msg"
       />
       <button onClick={sendMessage}>send</button>
+      <button onClick={deleteAllMessages}>delete</button>
     </section>
   );
 };

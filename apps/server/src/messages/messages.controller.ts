@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { Message } from '@server/messages/message.model';
 import { MessagesService } from '@server/messages/messages.service';
 import { AuthGuard } from '@server/auth/auth.guard';
@@ -24,5 +32,10 @@ export class MessagesController {
   async createMessage(@Body('content') content: string) {
     const newMessage = await this.messagesService.createMessage(content);
     return newMessage;
+  }
+
+  @Delete()
+  async deleteAllMessages() {
+    await this.messagesService.deleteAllMessages();
   }
 }

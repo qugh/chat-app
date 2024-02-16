@@ -11,13 +11,13 @@ class AuthApi extends BaseApi {
   public signUp = async (
     payload: CreateUserDto,
   ): Promise<AxiosResponse<User>> => {
-    return await this.POST('/register', payload);
+    return await this.POST('/auth/register', payload);
   };
 
   public signIn = async (
     payload: CreateUserDto,
   ): Promise<AxiosResponse<{ accessToken: string }>> => {
-    return await this.POST('/login', payload);
+    return await this.POST('/auth/login', payload);
   };
 }
 

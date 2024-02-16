@@ -13,6 +13,10 @@ export class MessagesService {
     return messages;
   }
 
+  async deleteAllMessages() {
+    await this.messagesRepository.truncate();
+  }
+
   async getMessageById(id: number) {
     const message = await this.messagesRepository.findOne({
       where: {

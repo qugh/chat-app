@@ -6,6 +6,9 @@ import { UsersModule } from './users/users.module';
 import { User } from '@server/users/users.model';
 import { MessagesModule } from '@server/messages/messages.module';
 import { Message } from '@server/messages/message.model';
+import { MessagesGateway } from '@server/messages/messages.gateway';
+import { MessagesService } from '@server/messages/messages.service';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 
 @Module({
   controllers: [],

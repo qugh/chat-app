@@ -1,9 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { io } from 'socket.io-client';
 import { getAccessToken } from '@client/shared/utils/localstorage';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryKeys } from '@client/shared/constants';
-import { getAllMessagesProvider } from '@client/shared/providers/Messages';
+import {
+  deleteAllMessagesProvider,
+  getAllMessagesProvider,
+} from '@client/shared/providers/Messages';
+import { useNavigate } from 'react-router';
+import { useUpdateEffect } from '@client/shared/hooks/useUpdateEffect';
 
 interface Message {
   content: string | Record<string, unknown>;
@@ -12,20 +17,28 @@ interface Message {
 
 export const useMessages = () => {
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const messagesQuery = useQuery({
     queryKey: [queryKeys.GET_MESSAGES],
     queryFn: () => getAllMessagesProvider(),
   });
 
-  const socket = useMemo(
-    () =>
-      io('http://localhost:5001/messages', {
-        transports: ['websocket'],
-        auth: { jwt: getAccessToken() },
-      }),
-    [],
-  );
+  const deleteMessagesMutation = useMutation({
+    mutationFn: deleteAllMessagesProvider,
+    onSuccess: () => {
+      messagesQuery.refetch();
+    },
+  });
+
+  const token = getAccessToken();
+
+  const socket = useMemo(() => {
+    return io('http://localhost:5001', {
+      transports: ['websocket'],
+      auth: { jwt: token },
+    });
+  }, [token]);
 
   const listener = (msg: Message) => {
     // const newMessages = [...messages, msg];
@@ -33,8 +46,16 @@ export const useMessages = () => {
     messagesQuery.refetch();
   };
 
+  useUpdateEffect(() => {
+    if (socket.disconnected) {
+    }
+  }, [socket.disconnected]);
+
   useEffect(() => {
     socket.on('message', listener);
+    socket.io.on('close', () => {
+      navigate('/sign-in');
+    });
 
     return () => {
       socket.off('message', listener);
@@ -50,10 +71,13 @@ export const useMessages = () => {
     setMessage(e.currentTarget.value);
   };
 
+  const deleteAllMessages = deleteMessagesMutation.mutate;
+
   return {
     sendMessage,
     message,
     handleChange,
     messages: messagesQuery.data || [],
+    deleteAllMessages,
   };
 };

@@ -13,4 +13,5 @@ export class BaseApi {
 
   public GET = this.instance.get;
   public POST = this.instance.post;
+  public DELETE = this.instance.delete;
 }

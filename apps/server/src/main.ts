@@ -5,7 +5,7 @@ import { AuthAdapter } from '@server/auth/auth.adapter';
 
 async function start() {
   const PORT = process.env.PORT || 5000;
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { snapshot: true });
   // @ts-ignore
   app.useWebSocketAdapter(new AuthAdapter(app));
   app.enableCors({ origin: '*' });
