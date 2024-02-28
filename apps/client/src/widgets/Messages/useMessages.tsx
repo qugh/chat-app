@@ -71,7 +71,7 @@ export const useMessages = () => {
     setMessage(e.currentTarget.value);
   };
 
-  const deleteAllMessages = deleteMessagesMutation.mutate;
+  const deleteAllMessages = () => deleteMessagesMutation.mutate();
 
   return {
     sendMessage,
