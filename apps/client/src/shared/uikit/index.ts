@@ -8,4 +8,5 @@ export { Link } from './Link/Link';
 export { Typography } from './Typography/Typography';
 export { theme } from './theme';
 export { Icons } from './icons';
-export { List, ListItem, ListItemText } from './List';
+export { List, ListItem, ListItemText, Divider } from './List';
+export { Chip } from './Chip/Chip';
