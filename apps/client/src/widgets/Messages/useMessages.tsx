@@ -21,7 +21,7 @@ export const useMessages = () => {
 
   const messagesQuery = useQuery({
     queryKey: [queryKeys.GET_MESSAGES],
-    queryFn: () => getAllMessagesProvider(),
+    queryFn: getAllMessagesProvider,
   });
 
   const deleteMessagesMutation = useMutation({

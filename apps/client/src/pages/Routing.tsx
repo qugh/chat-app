@@ -2,9 +2,11 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { App } from '@client/app';
 import React, { PropsWithChildren } from 'react';
 import { Chat, SignIn, SignUp } from '@client/pages';
+import { useAuth } from '@client/shared/hooks/useAuth';
 
 export const Routing: React.FC<PropsWithChildren> = () => {
   // TODO error boundary
+
   const router = createBrowserRouter([
     {
       path: '/',

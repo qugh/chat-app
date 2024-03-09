@@ -2,7 +2,7 @@ import { BaseApi } from '@client/shared/api/Base';
 import { AxiosResponse } from 'axios';
 
 class MessagesApiInstance extends BaseApi {
-  public getAllMessages = async (): Promise<AxiosResponse<any>> => {
+  public getAllMessages = async <T>(): Promise<AxiosResponse<T>> => {
     return await this.GET('/messages');
   };
 

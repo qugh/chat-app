@@ -20,19 +20,19 @@ export const Messages: React.FC = () => {
     useMessages();
 
   return (
-    <Stack p={2} alignItems="center" direction="column">
+    <Stack p={2} alignItems="center" direction="column" mt={-2}>
       <Box flexGrow="1" minWidth="100%">
         <List
           sx={{
             bgcolor: 'background.paper',
             height: 'calc(100vh - 72px)',
-            overflow: 'scroll',
+            overflow: 'hidden scroll',
           }}
         >
-          {messages?.map((message) => (
-            <>
+          {messages.map((message) => (
+            <React.Fragment key={message.id}>
               <Divider textAlign="right" component="li">
-                <Chip size="small">{message.id}</Chip>
+                <Chip size="small" label={message.id} />
               </Divider>
               <ListItem key={message.updatedAt}>
                 <ListItemText
@@ -40,7 +40,7 @@ export const Messages: React.FC = () => {
                   secondary={formatDate(message.updatedAt, 'HH:mm:ss')}
                 />
               </ListItem>
-            </>
+            </React.Fragment>
           ))}
         </List>
       </Box>

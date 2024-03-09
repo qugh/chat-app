@@ -14,6 +14,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <QueryClientProvider client={queryClient}>
     <ThemeProvider theme={theme}>
       <Routing>
+        {/*TODO обработать переход на защищенные страницы*/}
         <App />
       </Routing>
       <CssBaseline />

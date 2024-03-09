@@ -1,17 +1,32 @@
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { getAccessToken } from '@client/shared/utils/localstorage';
 
-export class BaseApi {
-  private BACKEND_URL = 'http://localhost:5000/api/';
+const BACKEND_URL = 'http://localhost:5000/api/';
 
-  private instance = axios.create({
-    baseURL: this.BACKEND_URL,
-    headers: {
+const instance = axios.create({
+  baseURL: BACKEND_URL,
+  headers: {
+    common: {
       Authorization: `Bearer ${getAccessToken()}`,
     },
-  });
+  },
+});
 
-  public GET = this.instance.get;
-  public POST = this.instance.post;
-  public DELETE = this.instance.delete;
+export class BaseApi {
+  private instance: AxiosInstance;
+
+  constructor() {
+    this.instance = instance;
+  }
+
+  public set accessToken(token: string) {
+    this.instance.defaults.headers.common.Authorization = `Bearer ${token}`; // for all requests
+  }
+
+  public GET = (url: string) => this.instance.get(url);
+
+  public POST = (url: string, data: Record<string, unknown>) =>
+    this.instance.post(url, data);
+
+  public DELETE = (url: string) => this.instance.delete(url);
 }
