@@ -1,9 +1,17 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+  BelongsTo,
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  Table,
+} from 'sequelize-typescript';
 import {
   CreationOptional,
   InferAttributes,
   InferCreationAttributes,
 } from 'sequelize';
+import { User } from '@server/users/users.model';
 
 @Table({ tableName: 'messages' })
 export class Message extends Model<
@@ -27,4 +35,14 @@ export class Message extends Model<
     type: DataType.DATE,
   })
   declare createdAt: CreationOptional<Date>;
+
+  @ForeignKey(() => User)
+  @Column({ type: DataType.INTEGER })
+  userId: number;
+
+  @Column({ type: DataType.STRING })
+  email: string;
+
+  @BelongsTo(() => User)
+  author: User;
 }

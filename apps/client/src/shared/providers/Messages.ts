@@ -1,4 +1,5 @@
 import { MessagesApi } from '@client/shared/api/Messages';
+import { AxiosError } from 'axios';
 
 type Message = {
   content: string;
@@ -8,8 +9,14 @@ type Message = {
 };
 
 export const getAllMessagesProvider = async () => {
-  const { data } = await MessagesApi.getAllMessages<Message[]>();
-  return data;
+  try {
+    const { data } = await MessagesApi.getAllMessages<Message[]>();
+    return data;
+  } catch (e) {
+    if (e instanceof AxiosError) {
+      throw e.response?.data;
+    }
+  }
 };
 
 export const deleteAllMessagesProvider = async () => {

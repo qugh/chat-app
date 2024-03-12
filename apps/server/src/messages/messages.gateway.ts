@@ -8,10 +8,13 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { Body, Injectable, Logger, UseGuards } from '@nestjs/common';
+import { Logger, UseGuards, UsePipes } from '@nestjs/common';
 import { MessagesService } from '@server/messages/messages.service';
 import { AuthWsGuard } from '@server/auth/auth.ws.guard';
 import { JwtService } from '@nestjs/jwt';
+import { CreateMessageDto } from '@server/messages/dto/create-message.dto';
+import { CustomSocket } from '@server/auth/auth.adapter';
+import { WSValidationPipe } from '@server/pipes/ws-validation.pipe';
 
 @WebSocketGateway(5001, { transports: ['websocket'] })
 export class MessagesGateway
@@ -27,13 +30,19 @@ export class MessagesGateway
   @WebSocketServer()
   wss: Server;
 
+  @UsePipes(new WSValidationPipe())
   @UseGuards(AuthWsGuard)
   @SubscribeMessage('message')
   async handleSendMessage(
-    client: Socket,
-    payload: { data: string },
+    client: CustomSocket,
+    data: CreateMessageDto,
   ): Promise<void> {
-    const newMessage = await this.messagesService.createMessage(payload.data);
+    const newMessage = await this.messagesService.createMessage({
+      ...data,
+      //@ts-ignore
+      userId: client.user.id,
+      email: client.user.email,
+    });
     this.wss.emit('message', newMessage);
   }
 

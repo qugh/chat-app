@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { io } from 'socket.io-client';
 import { getAccessToken } from '@client/shared/utils/localstorage';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from '@client/shared/constants';
 import {
   deleteAllMessagesProvider,
@@ -18,11 +18,19 @@ interface Message {
 export const useMessages = () => {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-  const messagesQuery = useQuery({
+  const messagesQuery = useQuery<
+    Message[] | undefined,
+    { statusCode: number; message: string }
+  >({
     queryKey: [queryKeys.GET_MESSAGES],
     queryFn: getAllMessagesProvider,
   });
+
+  useUpdateEffect(() => {
+    if (messagesQuery.error?.statusCode === 401) navigate('/sign-in');
+  }, [messagesQuery.error]);
 
   const deleteMessagesMutation = useMutation({
     mutationFn: deleteAllMessagesProvider,
@@ -41,21 +49,21 @@ export const useMessages = () => {
   }, [token]);
 
   const listener = (msg: Message) => {
+    console.log('msg', msg);
     // const newMessages = [...messages, msg];
     // setMessages(newMessages);
-    messagesQuery.refetch();
+    // messagesQuery.refetch();
+    queryClient.setQueryData<Message[]>([queryKeys.GET_MESSAGES], (prev) => {
+      if (!prev) return prev;
+      return [...prev, msg];
+    });
   };
-
-  useUpdateEffect(() => {
-    if (socket.disconnected) {
-    }
-  }, [socket.disconnected]);
 
   useEffect(() => {
     socket.on('message', listener);
-    socket.io.on('close', () => {
-      navigate('/sign-in');
-    });
+    // socket.io.on('close', () => {
+    //   navigate('/sign-in');
+    // });
 
     return () => {
       socket.off('message', listener);
@@ -63,7 +71,7 @@ export const useMessages = () => {
   }, []);
 
   function sendMessage() {
-    socket.emit('message', { data: message });
+    socket.emit('message', { content: message });
     setMessage('');
   }
 

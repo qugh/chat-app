@@ -1,6 +1,7 @@
 import { NotFoundException } from '@nestjs/common';
 import { Message } from '@server/messages/message.model';
 import { InjectModel } from '@nestjs/sequelize';
+import { CreateMessageDto } from '@server/messages/dto/create-message.dto';
 
 export class MessagesService {
   constructor(
@@ -29,8 +30,8 @@ export class MessagesService {
     throw new NotFoundException('Could not find the message');
   }
 
-  async createMessage(content: string) {
-    const newMessage = await this.messagesRepository.create({ content });
+  async createMessage(dto: CreateMessageDto) {
+    const newMessage = await this.messagesRepository.create(dto);
     return newMessage;
   }
 }

@@ -4,18 +4,20 @@ import { Server, Socket } from 'socket.io';
 import { JwtService } from '@nestjs/jwt';
 import { INestApplicationContext } from '@nestjs/common';
 import { WsException } from '@nestjs/websockets';
-import { ExtendedError } from 'socket.io/dist/namespace';
+import { UsersService } from '@server/users/users.service';
 
 export interface CustomSocket extends Socket {
-  user: User;
+  user: Pick<User, 'id' | 'email' | 'createdAt'>;
 }
 
 export class AuthAdapter extends IoAdapter {
   private readonly jwtService: JwtService;
+  private readonly usersService: UsersService;
 
   constructor(private app: INestApplicationContext) {
     super(app);
     this.jwtService = this.app.get(JwtService);
+    this.usersService = this.app.get(UsersService);
   }
 
   createIOServer(port: number, options): any {
@@ -32,11 +34,15 @@ export class AuthAdapter extends IoAdapter {
       }
 
       try {
-        const payload = await this.jwtService.verifyAsync(token, {
+        const payload: User = await this.jwtService.verifyAsync(token, {
           secret: process.env.JWT_SECRET,
         });
 
-        socket.user = payload;
+        const { id, email, createdAt } = await this.usersService.findOne(
+          payload.email,
+        );
+
+        socket.user = { id, email, createdAt };
         return next();
       } catch (e) {
         return next(new WsException('Auth error'));

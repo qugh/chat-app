@@ -4,7 +4,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  Grid,
   Divider,
   Chip,
   Input,
@@ -32,7 +31,7 @@ export const Messages: React.FC = () => {
           {messages.map((message) => (
             <React.Fragment key={message.id}>
               <Divider textAlign="right" component="li">
-                <Chip size="small" label={message.id} />
+                <Chip size="small" label={message.email} />
               </Divider>
               <ListItem key={message.updatedAt}>
                 <ListItemText

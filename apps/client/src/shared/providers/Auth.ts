@@ -1,5 +1,6 @@
 import { CreateUserDto } from '@server/users/dto/create-user.dto';
 import { authApi } from '@client/shared/api/Auth';
+import { setAccessToken } from '@client/shared/utils/localstorage';
 
 export const signUpProvider = async (payload: CreateUserDto) => {
   const { data } = await authApi.signUp(payload);
@@ -8,5 +9,7 @@ export const signUpProvider = async (payload: CreateUserDto) => {
 
 export const signInProvider = async (payload: CreateUserDto) => {
   const { data } = await authApi.signIn(payload);
+  setAccessToken(data.accessToken);
+
   return data.accessToken;
 };
