@@ -6,12 +6,12 @@ import {
   Request,
   UseGuards,
   UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
 import { AuthService } from '@server/auth/auth.service';
 import { CreateUserDto } from '@server/users/dto/create-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@server/auth/auth.guard';
+import { ValidationPipe } from '@server/pipes/validation.pipe';
 
 @ApiTags('Авторизация')
 @Controller('auth')

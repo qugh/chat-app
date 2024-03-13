@@ -13,7 +13,7 @@ import {
 import { useRegister } from './useRegister';
 
 export const Register: React.FC = () => {
-  const { handleSignUp } = useRegister();
+  const { handleSignUp, error } = useRegister();
   return (
     <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
       <Box
@@ -33,6 +33,9 @@ export const Register: React.FC = () => {
         </Typography>
         <Box component="form" noValidate onSubmit={handleSignUp} sx={{ mt: 1 }}>
           <Input
+            // ts-ignore
+            error={Boolean(error?.email)}
+            helperText={error?.email}
             margin="normal"
             required
             fullWidth
@@ -43,6 +46,8 @@ export const Register: React.FC = () => {
             autoFocus
           />
           <Input
+            error={Boolean(error?.password)}
+            helperText={error?.password}
             margin="normal"
             required
             fullWidth
