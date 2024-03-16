@@ -26,6 +26,7 @@ export const useMessages = () => {
   >({
     queryKey: [queryKeys.GET_MESSAGES],
     queryFn: getAllMessagesProvider,
+    retry: false,
   });
 
   useUpdateEffect(() => {
@@ -49,7 +50,6 @@ export const useMessages = () => {
   }, [token]);
 
   const listener = (msg: Message) => {
-    console.log('msg', msg);
     // const newMessages = [...messages, msg];
     // setMessages(newMessages);
     // messagesQuery.refetch();

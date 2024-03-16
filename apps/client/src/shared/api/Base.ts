@@ -25,7 +25,7 @@ export class BaseApi {
 
   public GET = (url: string) => this.instance.get(url);
 
-  public POST = (url: string, data: Record<string, unknown>) =>
+  public POST = (url: string, data: Record<string, any>) =>
     this.instance.post(url, data);
 
   public DELETE = (url: string) => this.instance.delete(url);
