@@ -31,7 +31,15 @@ export class UsersService {
     return user;
   }
 
-  async findOne(email: string): Promise<User> {
-    return this.userRepository.findOne({ where: { email } });
+  async findOne<B extends boolean>(
+    email: string,
+    withPassword?: B,
+  ): Promise<B extends true ? User : Omit<User, 'password'>> {
+    const user = await this.userRepository.findOne({
+      where: { email },
+      raw: true,
+      ...(!withPassword && { attributes: { exclude: ['password'] } }),
+    });
+    return user;
   }
 }

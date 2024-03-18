@@ -1,16 +1,7 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Request,
-  UseGuards,
-  UsePipes,
-} from '@nestjs/common';
+import { Body, Controller, Post, UsePipes } from '@nestjs/common';
 import { AuthService } from '@server/auth/auth.service';
 import { CreateUserDto } from '@server/users/dto/create-user.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from '@server/auth/auth.guard';
 import { ValidationPipe } from '@server/pipes/validation.pipe';
 
 @ApiTags('Авторизация')
@@ -29,9 +20,9 @@ export class AuthController {
     return this.authService.signIn(signInDto);
   }
 
-  @UseGuards(AuthGuard)
-  @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
-  }
+  // @UseGuards(AuthGuard)
+  // @Get('profile')
+  // getProfile(@Request() req) {
+  //   return req.user;
+  // }
 }
