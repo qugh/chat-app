@@ -6,19 +6,15 @@ import { queryKeys } from '@client/shared/constants';
 import {
   deleteAllMessagesProvider,
   getAllMessagesProvider,
+  Message,
 } from '@client/shared/providers/Messages';
-import { useNavigate } from 'react-router';
-import { useUpdateEffect } from '@client/shared/hooks/useUpdateEffect';
-
-interface Message {
-  content: string | Record<string, unknown>;
-  updatedAt: string;
-}
+import { useProfile } from '@client/shared/hooks/useProfile';
 
 export const useMessages = () => {
   const [message, setMessage] = useState('');
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
+
+  const { profileQuery } = useProfile();
 
   const messagesQuery = useQuery<
     Message[] | undefined,
@@ -26,12 +22,13 @@ export const useMessages = () => {
   >({
     queryKey: [queryKeys.GET_MESSAGES],
     queryFn: getAllMessagesProvider,
+    select: (data) =>
+      data?.map((message) => ({
+        ...message,
+        email: message.userId == profileQuery.data?.id ? 'You' : message.email,
+      })),
     retry: false,
   });
-
-  useUpdateEffect(() => {
-    if (messagesQuery.error?.statusCode === 401) navigate('/sign-in');
-  }, [messagesQuery.error]);
 
   const deleteMessagesMutation = useMutation({
     mutationFn: deleteAllMessagesProvider,
@@ -50,9 +47,6 @@ export const useMessages = () => {
   }, [token]);
 
   const listener = (msg: Message) => {
-    // const newMessages = [...messages, msg];
-    // setMessages(newMessages);
-    // messagesQuery.refetch();
     queryClient.setQueryData<Message[]>([queryKeys.GET_MESSAGES], (prev) => {
       if (!prev) return prev;
       return [...prev, msg];

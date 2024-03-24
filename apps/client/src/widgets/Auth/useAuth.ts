@@ -7,7 +7,7 @@ export const useAuth = () => {
   const navigate = useNavigate();
 
   const handleSuccess = () => {
-    navigate('/chat');
+    navigate('/');
   };
 
   const signInMutation = useMutation({

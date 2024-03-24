@@ -1,12 +1,14 @@
 import { MessagesApi } from '@client/shared/api/Messages';
 import { AxiosError } from 'axios';
 
-type Message = {
+export interface Message {
   content: string;
-  createdAt: string;
-  id: number;
   updatedAt: string;
-};
+  userId: number;
+  id: number;
+  createdAt: string;
+  email: string;
+}
 
 export const getAllMessagesProvider = async () => {
   try {

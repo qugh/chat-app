@@ -15,8 +15,7 @@ import { formatDate } from '@client/shared/utils/date';
 import { Stack } from '@client/shared/uikit/Layout/Stack';
 
 export const Messages: React.FC = () => {
-  const { sendMessage, message, handleChange, messages, deleteAllMessages } =
-    useMessages();
+  const { sendMessage, message, handleChange, messages } = useMessages();
 
   return (
     <Stack p={2} alignItems="center" direction="column" mt={-2}>

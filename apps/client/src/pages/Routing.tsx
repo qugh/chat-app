@@ -1,19 +1,22 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { App } from '@client/app';
 import React, { PropsWithChildren } from 'react';
 import { Chat, SignIn, SignUp } from '@client/pages';
+import { App } from '@client/app';
 
 export const Routing: React.FC<PropsWithChildren> = () => {
   // TODO error boundary
 
   const router = createBrowserRouter([
     {
+      id: 'root',
       path: '/',
-      element: <App />,
+      Component: App,
+      children: [
+        { index: true, Component: Chat },
+        { path: 'sign-in', Component: SignIn },
+        { path: 'sign-up', Component: SignUp },
+      ],
     },
-    { path: '/sign-in', element: <SignIn /> },
-    { path: '/sign-up', element: <SignUp /> },
-    { path: '/chat', element: <Chat /> },
   ]);
 
   return <RouterProvider router={router} />;

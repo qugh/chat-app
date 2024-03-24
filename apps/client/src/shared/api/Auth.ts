@@ -17,7 +17,7 @@ class AuthApi extends BaseApi {
   };
 
   public signIn = async (payload: CreateUserDto): Promise<SignInData> => {
-    const data: SignInData = await this.POST('/auth/login', payload);
+    const data = await this.POST('/auth/login', payload);
 
     this.accessToken = data.data.accessToken;
 

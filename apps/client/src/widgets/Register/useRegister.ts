@@ -33,7 +33,7 @@ export const useRegister = () => {
   const signInMutation = useMutation({
     mutationFn: signInProvider,
     onSuccess: () => {
-      navigate('/chat');
+      navigate('/');
     },
   });
 
