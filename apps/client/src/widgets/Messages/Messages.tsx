@@ -4,7 +4,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  Divider,
   Chip,
   Input,
   Button,
@@ -13,32 +12,54 @@ import {
 } from '@client/shared/uikit';
 import { formatDate } from '@client/shared/utils/date';
 import { Stack } from '@client/shared/uikit/Layout/Stack';
+import { ListSubHeader } from '@client/shared/uikit/List';
 
 export const Messages: React.FC = () => {
-  const { sendMessage, message, handleChange, messages } = useMessages();
+  const {
+    sendMessage,
+    message,
+    handleChange,
+    messages,
+    listRef,
+    handleKeyDown,
+  } = useMessages();
 
   return (
     <Stack p={2} alignItems="center" direction="column" mt={-2}>
       <Box flexGrow="1" minWidth="100%">
         <List
-          sx={{
+          ref={listRef}
+          sx={(theme) => ({
             bgcolor: 'background.paper',
             height: 'calc(100vh - 72px)',
             overflow: 'hidden scroll',
-          }}
+            '& ul': { padding: 0 },
+            [theme.breakpoints.up('lg')]: {
+              maxWidth: '50%',
+              margin: '0 auto',
+            },
+          })}
+          subheader={<li />}
         >
-          {messages.map((message) => (
-            <React.Fragment key={message.id}>
-              <Divider textAlign="right" component="li">
-                <Chip size="small" label={message.email} />
-              </Divider>
-              <ListItem key={message.updatedAt}>
-                <ListItemText
-                  primary={message.content}
-                  secondary={formatDate(message.updatedAt, 'HH:mm:ss')}
-                />
-              </ListItem>
-            </React.Fragment>
+          {messages.map((message, idx, arr) => (
+            <li key={message.id}>
+              {/*<Divider textAlign="right" component="li">*/}
+              {/*  <Chip size="small" label={message.email} />*/}
+              {/*</Divider>*/}
+              <ul>
+                {message.email !== arr[idx - 1]?.email && (
+                  <ListSubHeader>
+                    <Chip size="small" label={message.email} />
+                  </ListSubHeader>
+                )}
+                <ListItem sx={{ py: 0 }} key={message.updatedAt}>
+                  <ListItemText
+                    primary={message.content}
+                    secondary={formatDate(message.updatedAt, 'HH:mm:ss')}
+                  />
+                </ListItem>
+              </ul>
+            </li>
           ))}
         </List>
       </Box>
@@ -47,6 +68,7 @@ export const Messages: React.FC = () => {
           size="small"
           value={message}
           onChange={handleChange}
+          onKeyDown={handleKeyDown}
           placeholder="Enter the message..."
         />
         <Button onClick={sendMessage} endIcon={<Icons.Send />}>

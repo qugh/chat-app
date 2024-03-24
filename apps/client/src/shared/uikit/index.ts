@@ -6,7 +6,7 @@ export { Avatar } from './Avatar/Avatar';
 export { Paper } from './Paper/Paper';
 export { Link } from './Link/Link';
 export { Typography } from './Typography/Typography';
-export { theme } from './theme';
+export { defaultThemeOptions } from './theme';
 export { Icons } from './icons';
 export { List, ListItem, ListItemText, Divider } from './List';
 export { Chip } from './Chip/Chip';

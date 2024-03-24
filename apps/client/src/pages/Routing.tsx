@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import React, { PropsWithChildren } from 'react';
 import { Chat, SignIn, SignUp } from '@client/pages';
-import { App } from '@client/app';
+import { Layout } from '@client/app/layout';
 
 export const Routing: React.FC<PropsWithChildren> = () => {
   // TODO error boundary
@@ -10,7 +10,7 @@ export const Routing: React.FC<PropsWithChildren> = () => {
     {
       id: 'root',
       path: '/',
-      Component: App,
+      Component: Layout,
       children: [
         { index: true, Component: Chat },
         { path: 'sign-in', Component: SignIn },

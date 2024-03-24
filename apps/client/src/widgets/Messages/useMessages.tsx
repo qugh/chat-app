@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
 import { getAccessToken } from '@client/shared/utils/localstorage';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -8,11 +8,13 @@ import {
   getAllMessagesProvider,
   Message,
 } from '@client/shared/providers/Messages';
-import { useProfile } from '@client/shared/hooks/useProfile';
+import { useProfile, useUpdateEffect } from '@client/shared/hooks';
 
 export const useMessages = () => {
   const [message, setMessage] = useState('');
   const queryClient = useQueryClient();
+
+  const listRef = useRef<HTMLUListElement>(null);
 
   const { profileQuery } = useProfile();
 
@@ -29,6 +31,12 @@ export const useMessages = () => {
       })),
     retry: false,
   });
+
+  useUpdateEffect(() => {
+    listRef.current?.lastElementChild?.scrollIntoView({
+      behavior: 'smooth',
+    });
+  }, [messagesQuery.data?.length]);
 
   const deleteMessagesMutation = useMutation({
     mutationFn: deleteAllMessagesProvider,
@@ -75,11 +83,17 @@ export const useMessages = () => {
 
   const deleteAllMessages = () => deleteMessagesMutation.mutate();
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.code === 'Enter') sendMessage();
+  };
+
   return {
     sendMessage,
     message,
     handleChange,
     messages: messagesQuery.data || [],
     deleteAllMessages,
+    listRef,
+    handleKeyDown,
   };
 };
