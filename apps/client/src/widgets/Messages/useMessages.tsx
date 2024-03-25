@@ -34,7 +34,7 @@ export const useMessages = () => {
 
   useUpdateEffect(() => {
     listRef.current?.lastElementChild?.scrollIntoView({
-      behavior: 'smooth',
+      behavior: 'auto',
     });
   }, [messagesQuery.data?.length]);
 

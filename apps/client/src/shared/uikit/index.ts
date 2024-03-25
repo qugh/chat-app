@@ -1,12 +1,10 @@
 export { Button } from './Button/Button';
 export { Input } from './Input/Input';
-export { Grid } from './Grid/Grid';
-export { Box } from './Box/Box';
 export { Avatar } from './Avatar/Avatar';
-export { Paper } from './Paper/Paper';
+export { Paper, Stack, Grid, Box } from './Layout';
 export { Link } from './Link/Link';
 export { Typography } from './Typography/Typography';
 export { defaultThemeOptions } from './theme';
 export { Icons } from './icons';
-export { List, ListItem, ListItemText, Divider } from './List';
+export { List, ListItem, ListItemText, Divider, ListSubHeader } from './List';
 export { Chip } from './Chip/Chip';

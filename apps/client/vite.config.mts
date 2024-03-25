@@ -13,5 +13,6 @@ export default defineConfig({
       key: fs.readFileSync("./vendor/cert/key.crt"),
       cert: fs.readFileSync("./vendor/cert/cert.crt"),
     },
+    watch: null,
   },
 });

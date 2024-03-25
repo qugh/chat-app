@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import React, { PropsWithChildren } from 'react';
 import { Chat, SignIn, SignUp } from '@client/pages';
-import { Layout } from '@client/app/layout';
+import { Layout } from '@client/app';
 
 export const Routing: React.FC<PropsWithChildren> = () => {
   // TODO error boundary

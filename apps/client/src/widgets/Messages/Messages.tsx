@@ -9,10 +9,10 @@ import {
   Button,
   Icons,
   Box,
+  Stack,
+  ListSubHeader,
 } from '@client/shared/uikit';
 import { formatDate } from '@client/shared/utils/date';
-import { Stack } from '@client/shared/uikit/Layout/Stack';
-import { ListSubHeader } from '@client/shared/uikit/List';
 
 export const Messages: React.FC = () => {
   const {
@@ -31,7 +31,7 @@ export const Messages: React.FC = () => {
           ref={listRef}
           sx={(theme) => ({
             bgcolor: 'background.paper',
-            height: 'calc(100vh - 72px)',
+            height: 'calc(100vh - 72px - 40px - 16px)',
             overflow: 'hidden scroll',
             '& ul': { padding: 0 },
             [theme.breakpoints.up('lg')]: {
