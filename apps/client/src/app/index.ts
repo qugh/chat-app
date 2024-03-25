@@ -1,1 +1,2 @@
-export { App } from './app';
+export { App } from './App';
+export { Layout } from './Layout';

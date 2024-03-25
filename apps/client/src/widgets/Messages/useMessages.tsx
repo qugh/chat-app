@@ -27,7 +27,10 @@ export const useMessages = () => {
     select: (data) =>
       data?.map((message) => ({
         ...message,
-        email: message.userId == profileQuery.data?.id ? 'You' : message.email,
+        email:
+          message.userId == profileQuery.data?.id
+            ? `${message.email} (You)`
+            : message.email,
       })),
     retry: false,
   });
