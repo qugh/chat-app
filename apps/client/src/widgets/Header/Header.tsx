@@ -7,15 +7,14 @@ import {
   MenuItem,
   Tooltip,
   Icons,
+  Typography
 } from '@client/shared/uikit';
 import { User } from '@server/users/users.model';
 import { useNavigate } from 'react-router';
 import { IconButton, ListItemIcon } from '@mui/material';
-import { useToggle } from '@client/shared/hooks';
 
 export const Header: React.FC<{ user?: User }> = ({ user }) => {
   const navigate = useNavigate();
-  const toggle = useToggle();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -31,12 +30,17 @@ export const Header: React.FC<{ user?: User }> = ({ user }) => {
   return (
     <Box
       display="flex"
-      flexGrow={1}
       alignItems="center"
-      padding="12px"
-      alignSelf="end"
+      gap={1}
       justifyContent="right"
+      p={2}
     >
+      <Typography
+        color="darkslategray"
+        variant="h5"
+        sx={{ marginRight: 'auto' }}
+      >   Chat app
+      </Typography>
       <Tooltip title="Profile settings">
         <IconButton
           aria-controls={isMenuOpened ? 'account-menu' : undefined}

@@ -20,7 +20,14 @@ export const Layout: React.FC = () => {
   if (profileQuery.isLoading) return <>Loading...</>;
 
   return (
-    <Stack>
+    <Stack
+      sx={(theme) => ({
+        [theme.breakpoints.up('lg')]: {
+          maxWidth: '1076px',
+          margin: '0 auto',
+        },
+      })}
+    >
       <Header user={profileQuery.data} />
       <Outlet />
     </Stack>

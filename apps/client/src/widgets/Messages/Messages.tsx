@@ -34,10 +34,6 @@ export const Messages: React.FC = () => {
             height: 'calc(100vh - 72px - 40px - 16px)',
             overflow: 'hidden scroll',
             '& ul': { padding: 0 },
-            [theme.breakpoints.up('lg')]: {
-              maxWidth: '50%',
-              margin: '0 auto',
-            },
           })}
           subheader={<li />}
         >
