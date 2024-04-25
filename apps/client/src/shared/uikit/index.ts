@@ -8,3 +8,5 @@ export { defaultThemeOptions } from './theme';
 export { Icons } from './icons';
 export { List, ListItem, ListItemText, Divider, ListSubHeader } from './List';
 export { Chip } from './Chip/Chip';
+export { Menu, MenuItem } from './Menu';
+export { Tooltip } from './Tooltip/Tooltip';
